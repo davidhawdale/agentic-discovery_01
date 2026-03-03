@@ -5,8 +5,8 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-VERIFY_SCRIPT = ROOT / "02-workflows" / "roleplay-personas" / "verify-roleplay-response.py"
-PACK_FILE = ROOT / "04-process" / "roleplay-personas" / "roleplay" / "session-pack.json"
+VERIFY_SCRIPT = ROOT / "02-workflows" / "run-focus-group" / "verify-focus-group-response.py"
+PACK_FILE = ROOT / "04-process" / "run-focus-group" / "focus-group" / "session-pack.json"
 
 
 def _load_verify_module():

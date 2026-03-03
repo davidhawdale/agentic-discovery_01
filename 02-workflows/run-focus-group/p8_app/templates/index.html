@@ -90,6 +90,7 @@ POST /api/session/{session_id}/ask
 
       const createBtn = document.getElementById("createSessionBtn");
       const askForm = document.getElementById("askForm");
+      const askBtn = askForm.querySelector("button[type='submit']");
       const sessionStatus = document.getElementById("sessionStatus");
       const errorsBox = document.getElementById("errors");
       const resultBox = document.getElementById("result");
@@ -101,73 +102,112 @@ POST /api/session/{session_id}/ask
           .replace(/>/g, "&gt;");
       }
 
-      createBtn.addEventListener("click", async () => {
-        errorsBox.textContent = "";
-        const resp = await fetch("/api/session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({}),
-        });
-        const data = await resp.json();
-        if (!resp.ok) {
-          errorsBox.textContent = data.error || "Failed to create session";
-          return;
+      async function parseJsonSafe(resp) {
+        try {
+          return await resp.json();
+        } catch (_err) {
+          return null;
         }
-        activeSessionId = data.session_id;
-        sessionStatus.innerHTML = `Active session: <code>${activeSessionId}</code>`;
-      });
+      }
+
+      function showError(message) {
+        errorsBox.textContent = message || "Request failed.";
+        errorsBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      async function createSession() {
+        errorsBox.textContent = "";
+        createBtn.disabled = true;
+        createBtn.textContent = "Creating...";
+        try {
+          const resp = await fetch("/api/session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({}),
+          });
+          const data = await parseJsonSafe(resp);
+          if (!resp.ok) {
+            showError((data && data.error) || `Failed to create session (HTTP ${resp.status})`);
+            return false;
+          }
+          activeSessionId = data.session_id;
+          sessionStatus.innerHTML = `Active session: <code>${activeSessionId}</code>`;
+          return true;
+        } catch (err) {
+          showError(`Failed to create session: ${err.message || err}`);
+          return false;
+        } finally {
+          createBtn.disabled = false;
+          createBtn.textContent = "Create New Session";
+        }
+      }
+
+      createBtn.addEventListener("click", createSession);
 
       askForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         errorsBox.textContent = "";
         resultBox.innerHTML = "";
-        if (!activeSessionId) {
-          errorsBox.textContent = "Create a session first.";
+        if (!activeSessionId && !(await createSession())) {
+          showError("Unable to create a session. Check the API status and try again.");
           return;
         }
         const q = document.getElementById("question").value.trim();
         if (!q) {
-          errorsBox.textContent = "Question is required.";
+          showError("Question is required.");
           return;
         }
-        const resp = await fetch(`/api/session/${activeSessionId}/ask`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            question: q,
-            conversation_depth: document.getElementById("conversationDepth").value,
-            emotional_expressiveness: document.getElementById("emotionalExpressiveness").value,
-          }),
-        });
-        const data = await resp.json();
-        if (!resp.ok) {
-          errorsBox.textContent = `${data.error || "Request failed"}: ${(data.detail || "")}`;
-          if (data.errors) {
-            errorsBox.textContent += " | " + data.errors.join("; ");
+        askBtn.disabled = true;
+        askBtn.textContent = "Asking...";
+        sessionStatus.innerHTML = `Active session: <code>${activeSessionId}</code> — waiting for panel response...`;
+        try {
+          const resp = await fetch(`/api/session/${activeSessionId}/ask`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              question: q,
+              conversation_depth: document.getElementById("conversationDepth").value,
+              emotional_expressiveness: document.getElementById("emotionalExpressiveness").value,
+            }),
+          });
+          const data = await parseJsonSafe(resp);
+          if (!resp.ok) {
+            const detail = data && data.detail ? data.detail : "";
+            showError(`${(data && data.error) || "Request failed"}${detail ? `: ${detail}` : ` (HTTP ${resp.status})`}`);
+            if (data && data.errors) {
+              errorsBox.textContent += " | " + data.errors.join("; ");
+            }
+            return;
           }
-          return;
+
+          const parsed = data.turn.parsed_output;
+          const convo = (parsed.conversation_entries || [])
+            .map(
+              (c) => `<div class="line"><span class="speaker">${escapeHtml(c.speaker)}:</span> <span>${escapeHtml(c.message)}</span></div>`
+            )
+            .join("");
+
+          const turnHtml = `
+            <article class="turn">
+              <h3>Question</h3>
+              <p>${escapeHtml(parsed.team_question || q)}</p>
+              <h3>Focus Group Conversation</h3>
+              <div class="transcript">${convo}</div>
+              <h3>Moderator Summary</h3>
+              <pre>${escapeHtml(parsed.moderator_summary || "")}</pre>
+            </article>
+          `;
+
+          resultBox.insertAdjacentHTML("beforeend", turnHtml);
+          document.getElementById("question").value = "";
+          sessionStatus.innerHTML = `Active session: <code>${activeSessionId}</code>`;
+        } catch (err) {
+          showError(`Ask failed: ${err.message || err}`);
+          sessionStatus.innerHTML = `Active session: <code>${activeSessionId}</code> — request failed`;
+        } finally {
+          askBtn.disabled = false;
+          askBtn.textContent = "Ask Panel";
         }
-
-        const parsed = data.turn.parsed_output;
-        const convo = (parsed.conversation_entries || [])
-          .map(
-            (c) => `<div class="line"><span class="speaker">${escapeHtml(c.speaker)}:</span> <span>${escapeHtml(c.message)}</span></div>`
-          )
-          .join("");
-
-        const turnHtml = `
-          <article class="turn">
-            <h3>Question</h3>
-            <p>${escapeHtml(parsed.team_question || q)}</p>
-            <h3>Focus Group Conversation</h3>
-            <div class="transcript">${convo}</div>
-            <h3>Moderator Summary</h3>
-            <pre>${escapeHtml(parsed.moderator_summary || "")}</pre>
-          </article>
-        `;
-
-        resultBox.insertAdjacentHTML("beforeend", turnHtml);
-        document.getElementById("question").value = "";
       });
     </script>
   </body>

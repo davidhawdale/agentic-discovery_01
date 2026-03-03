@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-FOCUS_GROUP_TEMPLATE = ROOT / "10-resources" / "templates" / "roleplay-focus-group-prompt.md"
+FOCUS_GROUP_TEMPLATE = ROOT / "10-resources" / "templates" / "focus-group-prompt.md"
 REQUIRED_PLACEHOLDERS = {
     "{{question}}",
     "{{conversation_depth_rule}}",

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Phase 7: Prepare Roleplay Pack
+Phase 7: Prepare Focus Group Pack
 Builds deterministic roleplay artifacts from Phase 6 persona outputs.
 
 Usage:
-  python3 02-workflows/roleplay-personas/prepare-roleplay-pack.py
+  python3 02-workflows/run-focus-group/prepare-focus-group-pack.py
 
 Exit codes:
   0 PASS
@@ -22,7 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 P6_DIR = ROOT / "04-process" / "build-personas"
 P6_PERSONA_INPUTS = P6_DIR / "persona-inputs"
-P7_DIR = ROOT / "04-process" / "roleplay-personas" / "roleplay"
+P7_DIR = ROOT / "04-process" / "run-focus-group" / "focus-group"
 P7_SESSIONS = P7_DIR / "sessions"
 P4_QUOTES = ROOT / "04-process" / "extract-and-tag-quotes" / "p4-consolidate-tags" / "consolidated-quotes.csv"
 P3_CONTRADICTIONS = ROOT / "04-process" / "extract-and-tag-quotes" / "p3-check-contradictions" / "contradictions.csv"
@@ -242,8 +242,8 @@ def main() -> None:
 
     pack_payload = {
         "version": "1",
-        "workflow": "roleplay-personas",
-        "phase": "roleplay",
+        "workflow": "run-focus-group",
+        "phase": "focus-group",
         "personas": personas,
         "moderator_policy": {
             "must_include": [
@@ -269,11 +269,20 @@ def main() -> None:
 
 You are running a realistic five-persona focus-group discussion with a neutral moderator.
 
+Core intent:
+- This should feel like a live focus group, not five separate survey answers.
+- Each persona should speak from lived background, emotional drivers, and practical constraints.
+- Personas should naturally agree, challenge, clarify, and build on each other over the turn.
+
 Rules:
-- Maintain distinct persona voices and viewpoints.
+- Maintain distinct persona voices and viewpoints at all times.
+- Make each persona contribution grounded in that persona's narrative and interview evidence.
+- Include emotional reasoning (fear, trust, frustration, excitement, caution, relief) together with practical reasoning.
+- Explicitly surface pain points, tradeoffs, and what would change the persona's decision.
 - Let personas react to each other (not just isolated monologues).
 - Keep responses practical and product-focused.
-- Keep each line concise (1-3 sentences).
+- Keep each line concise (2-5 sentences).
+- Avoid generic, consultant-style language; sound like natural spoken conversation.
 
 Required output markdown structure:
 
@@ -284,14 +293,16 @@ Required output markdown structure:
 - [Persona Name]: [message]
 - [Persona Name]: [message]
 - [Persona Name]: [message]
-(At least 10 lines total. All five personas must speak at least once.)
+(At least 10 lines total. All five personas must speak at least once. Include at least 3 direct cross-persona reactions, e.g. one persona explicitly responds to another.)
 
 ## Moderator Summary
 Agreements:
 - ...
-Tensions:
+Disagreements:
 - ...
 Implications:
+- ...
+Open Questions:
 - ...
 """,
         encoding="utf-8",
@@ -324,7 +335,7 @@ Question:
         encoding="utf-8",
     )
 
-    print("\nPhase 7: Prepare Roleplay Pack")
+    print("\nPhase 7: Prepare Focus Group Pack")
     print("─" * 50)
     print(f"  Session pack   : {session_pack.relative_to(ROOT)}")
     print(f"  Panel prompt   : {panel_prompt.relative_to(ROOT)}")

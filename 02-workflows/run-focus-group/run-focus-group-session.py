@@ -3,7 +3,7 @@
 Phase 8: Run one role-play session turn from CLI (smoke/helper)
 
 Usage:
-  python3 02-workflows/roleplay-personas/run-roleplay-session.py --question "What should our MVP prioritize?"
+  python3 02-workflows/run-focus-group/run-focus-group-session.py --question "What should our MVP prioritize?"
 """
 
 from __future__ import annotations
@@ -15,14 +15,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "02-workflows" / "roleplay-personas"))
+sys.path.insert(0, str(ROOT / "02-workflows" / "run-focus-group"))
 
 from p8_app import llm  # noqa: E402
 from p8_app.prompting import build_user_prompt, correction_prompt, load_system_prompt  # noqa: E402
 from p8_app.verify import verify_response_text  # noqa: E402
 
-P7_DIR = ROOT / "04-process" / "roleplay-personas" / "roleplay"
-P8_DIR = ROOT / "04-process" / "roleplay-personas" / "roleplay-app"
+P7_DIR = ROOT / "04-process" / "run-focus-group" / "focus-group"
+P8_DIR = ROOT / "04-process" / "run-focus-group" / "focus-group-app"
 SESSIONS_DIR = P8_DIR / "sessions"
 LOGS_DIR = P8_DIR / "logs"
 
@@ -35,7 +35,7 @@ def main() -> None:
     pack_file = P7_DIR / "session-pack.json"
     prompt_file = P7_DIR / "panel-system-prompt.md"
     if not pack_file.exists() or not prompt_file.exists():
-        print("FAIL  Phase 7 artifacts missing. Run prepare-roleplay-pack.py first.")
+        print("FAIL  Phase 7 artifacts missing. Run prepare-focus-group-pack.py first.")
         print("\nStatus: FAIL")
         raise SystemExit(1)
 
@@ -68,7 +68,7 @@ def main() -> None:
     out = SESSIONS_DIR / f"{ts}-smoke-response.md"
     out.write_text(raw + "\n", encoding="utf-8")
 
-    print("\nPhase 8: Run Roleplay Session")
+    print("\nPhase 8: Run Focus Group Session")
     print("─" * 50)
     print(f"  Output: {out.relative_to(ROOT)}")
     print("\nStatus: PASS")

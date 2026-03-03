@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Phase 7/8: Verify Roleplay Pack
+Phase 7/8: Verify Focus Group Pack
 
 Usage:
-  python3 02-workflows/roleplay-personas/verify-roleplay-pack.py
+  python3 02-workflows/run-focus-group/verify-focus-group-pack.py
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-P7_DIR = ROOT / "04-process" / "roleplay-personas" / "roleplay"
+P7_DIR = ROOT / "04-process" / "run-focus-group" / "focus-group"
 P6_PERSONAS_DIR = ROOT / "04-process" / "build-personas" / "personas"
 PACK = P7_DIR / "session-pack.json"
 PROMPT = P7_DIR / "panel-system-prompt.md"
@@ -92,7 +92,7 @@ def main() -> None:
     if on_disk_personas and persona_files_found and on_disk_personas != persona_files_found:
         errors.append("session-pack persona_file set does not match current p6 personas/*.md set")
 
-    print("\nPhase 7/8: Verify Roleplay Pack")
+    print("\nPhase 7/8: Verify Focus Group Pack")
     print("─" * 50)
     print(f"  Pack file      : {PACK.relative_to(ROOT)}")
     print(f"  Personas found : {len(personas)}")

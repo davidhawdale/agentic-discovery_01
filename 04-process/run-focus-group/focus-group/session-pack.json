@@ -1,7 +1,7 @@
 {
   "version": "1",
-  "workflow": "roleplay-personas",
-  "phase": "roleplay",
+  "workflow": "run-focus-group",
+  "phase": "focus-group",
   "personas": [
     {
       "archetype_number": "1",

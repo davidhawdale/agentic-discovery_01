@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Phase 7/8: Verify Roleplay Response
+Phase 7/8: Verify Focus Group Response
 
 Usage:
-  python3 02-workflows/roleplay-personas/verify-roleplay-response.py --file <response.md>
+  python3 02-workflows/run-focus-group/verify-focus-group-response.py --file <response.md>
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_PACK = ROOT / "04-process" / "roleplay-personas" / "roleplay" / "session-pack.json"
+DEFAULT_PACK = ROOT / "04-process" / "run-focus-group" / "focus-group" / "session-pack.json"
 
 H_TEAM = "## Team Question"
 H_RESP = "## Persona Responses"
@@ -140,7 +140,7 @@ def main() -> None:
     text = response_file.read_text(encoding="utf-8")
     errors = verify_response_text(text, expected_names)
 
-    print("\nPhase 7/8: Verify Roleplay Response")
+    print("\nPhase 7/8: Verify Focus Group Response")
     print("─" * 50)
     print(f"  Response file  : {response_file.relative_to(ROOT)}")
     print(f"  Personas expect: {len(expected_names)}")

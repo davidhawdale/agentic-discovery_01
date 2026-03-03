@@ -21,7 +21,7 @@ Read consolidated participant quote evidence from `extract-and-tag-quotes` and s
 
 ## Process
 
-### Phase 5: Synthesize Archetypes
+### Phase 1: Synthesize Archetypes
 
 - Goal: Produce exactly five named core archetypes with participant assignments, plus optional outlier entries for weak-fit participants.
 - Run:
@@ -54,12 +54,12 @@ Read consolidated participant quote evidence from `extract-and-tag-quotes` and s
 - If fail:
   - Apply retry policy with specific correction instructions
 
-### Phase 5 Gate: Human Review — HARD STOP
+### Phase 1 Gate: Human Review — HARD STOP
 
 **Always stop here. Do not continue without explicit user confirmation.**
 
 - Trigger:
-  - Phase 5 completes and archetype/assignment outputs are generated
+  - Phase 1 completes and archetype/assignment outputs are generated
 - Read:
   - `04-process/synthesise-archetypes/archetypes.md`
   - `04-process/synthesise-archetypes/participant-archetype-assignments.csv`
@@ -68,8 +68,8 @@ Read consolidated participant quote evidence from `extract-and-tag-quotes` and s
   - Participants expected vs assigned
   - Outlier count
 - Ask user:
-  - If validation passes: "Phase 5 passed. Please review archetypes and assignments. Ready to copy outputs and complete this workflow?"
-  - If validation fails: "Phase 5 has validation failures. Would you like to re-run archetype synthesis with correction instructions?"
+  - If validation passes: "Phase 1 passed. Please review archetypes and assignments. Ready to copy outputs and complete this workflow?"
+  - If validation fails: "Phase 1 has validation failures. Would you like to re-run archetype synthesis with correction instructions?"
 - Stop rule:
   - Do not proceed until user explicitly confirms.
 
@@ -79,11 +79,11 @@ Use this section for directive workflows to map each directive acceptance criter
 
 | Directive Acceptance Criterion | Where Enforced in Workflow | Enforcement Mechanism |
 |---|---|---|
-| Exactly five core archetypes are produced. | Phase 5 (`verify-archetype-assignments.py`) + Phase 5 Human Review Gate | Verifies core archetype structure/numbering and confirms 5 core archetypes in review summary. |
-| Every participant is assigned exactly once (to a core archetype or outlier). | Phase 5 (`verify-archetype-assignments.py`) | Validates assignment coverage, uniqueness, and expected-vs-assigned parity. |
-| Outlier cap: no more than 2 outliers in a cohort of approximately 50 participants. | Phase 5 Human Review Gate | Outlier count is summarized and checked before approval to promote outputs. |
-| Each archetype includes three verbatim evidence quotes from three different participants in that archetype. | Phase 5 (`verify-archetype-assignments.py`) | Validates quote count per archetype, distinct quote participants, and participant membership consistency. |
-| Archetype names and descriptions are clearly differentiated and interpretable by downstream teams. | Phase 5 Human Review Gate | Reviewer confirms naming clarity and differentiation quality before final approval. |
+| Exactly five core archetypes are produced. | Phase 1 (`verify-archetype-assignments.py`) + Phase 1 Human Review Gate | Verifies core archetype structure/numbering and confirms 5 core archetypes in review summary. |
+| Every participant is assigned exactly once (to a core archetype or outlier). | Phase 1 (`verify-archetype-assignments.py`) | Validates assignment coverage, uniqueness, and expected-vs-assigned parity. |
+| Outlier cap: no more than 2 outliers in a cohort of approximately 50 participants. | Phase 1 Human Review Gate | Outlier count is summarized and checked before approval to promote outputs. |
+| Each archetype includes three verbatim evidence quotes from three different participants in that archetype. | Phase 1 (`verify-archetype-assignments.py`) | Validates quote count per archetype, distinct quote participants, and participant membership consistency. |
+| Archetype names and descriptions are clearly differentiated and interpretable by downstream teams. | Phase 1 Human Review Gate | Reviewer confirms naming clarity and differentiation quality before final approval. |
 | Outputs are usable as the direct foundation for the `build-personas` workflow. | Final Step: Copy Outputs | Promotes archetype artifacts to `05-outputs/synthesise-archetypes/` for downstream workflow consumption. |
 
 ## Retry Policy
@@ -126,7 +126,7 @@ Phase-local expected-participant contract:
 
 ### Final Step: Copy Outputs
 
-After the user confirms Phase 5 is complete and satisfactory, copy the final deliverables to `05-outputs/synthesise-archetypes/`:
+After the user confirms Phase 1 is complete and satisfactory, copy the final deliverables to `05-outputs/synthesise-archetypes/`:
 
 ```bash
 mkdir -p 05-outputs/synthesise-archetypes

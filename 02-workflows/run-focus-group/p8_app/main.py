@@ -16,8 +16,8 @@ from .prompting import build_focus_group_prompt, correction_prompt, load_system_
 from .storage import Storage
 
 ROOT = Path(__file__).resolve().parents[3]
-P7_DIR = ROOT / "04-process" / "roleplay-personas" / "roleplay"
-P8_DIR = ROOT / "04-process" / "roleplay-personas" / "roleplay-app"
+P7_DIR = ROOT / "04-process" / "run-focus-group" / "focus-group"
+P8_DIR = ROOT / "04-process" / "run-focus-group" / "focus-group-app"
 PACK_FILE = P7_DIR / "session-pack.json"
 SYSTEM_PROMPT_FILE = P7_DIR / "panel-system-prompt.md"
 APP_CONFIG_FILE = P8_DIR / "app-config.json"
@@ -219,7 +219,7 @@ async def api_create_session(request: Request):
 
     pack = load_pack()
     if not pack or len(pack.get("personas", [])) != 5:
-        storage.write_log("PACK_MISSING_OR_INVALID", "Cannot create session; roleplay pack missing/invalid")
+        storage.write_log("PACK_MISSING_OR_INVALID", "Cannot create session; focus-group pack missing/invalid")
         return JSONResponse(status_code=400, content={"error": "PACK_MISSING_OR_INVALID"})
 
     sess = storage.create_session(pack_personas_min(pack), title=title)
@@ -257,7 +257,7 @@ async def api_ask(session_id: str, request: Request):
 
     pack = load_pack()
     if not pack or len(pack.get("personas", [])) != 5 or not SYSTEM_PROMPT_FILE.exists():
-        storage.write_log("PACK_MISSING_OR_INVALID", "Cannot ask; roleplay pack missing/invalid")
+        storage.write_log("PACK_MISSING_OR_INVALID", "Cannot ask; focus-group pack missing/invalid")
         return JSONResponse(status_code=400, content={"error": "PACK_MISSING_OR_INVALID"})
 
     system_prompt = load_system_prompt(SYSTEM_PROMPT_FILE)

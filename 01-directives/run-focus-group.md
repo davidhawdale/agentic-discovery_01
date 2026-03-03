@@ -1,4 +1,4 @@
-# Directive: Roleplay Personas
+# Directive: Run Focus Group
 
 ## Goal
 
@@ -31,8 +31,8 @@ This workflow should help teams evaluate concepts against realistic user perspec
 
 | Output | Location |
 |--------|----------|
-| Role-play session pack | `05-outputs/roleplay-personas/session-pack.json` |
-| Session runbook | `05-outputs/roleplay-personas/session-runbook.md` |
+| Role-play session pack | `05-outputs/run-focus-group/session-pack.json` |
+| Session runbook | `05-outputs/run-focus-group/session-runbook.md` |
 
 ## Out of Scope
 
@@ -51,4 +51,4 @@ This workflow should help teams evaluate concepts against realistic user perspec
 
 ## Workflow
 
-See `02-workflows/roleplay-personas/` for the detailed process.
+See `02-workflows/run-focus-group/` for the detailed process.
