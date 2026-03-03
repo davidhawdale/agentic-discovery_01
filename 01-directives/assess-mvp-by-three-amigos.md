@@ -1,8 +1,8 @@
-# Assess VC Pitch by Three Amigos
+# Assess MVP by Three Amigos
 
 ## Goal
 
-Stress-test the VC pitch by assembling a **team** of three specialist agents — a UX Researcher, an Engineer, and a Product Manager — who independently review the pitch, then hold a live discussion round where they challenge and build on each other's thinking. A fourth agent synthesises everything into a final assessment document.
+Stress-test the MVP brief by assembling a **team** of three specialist agents — a UX Researcher, an Engineer, and a Product Manager — who independently review the brief, then hold a live discussion round where they challenge and build on each other's thinking. A fourth agent synthesises everything into a final assessment document.
 
 This workflow uses the **Claude Code Teams system** (`TeamCreate`, `SendMessage`) so the specialists genuinely communicate with each other during the discussion round, rather than just reading static files. The team lead orchestrates the phases and records the full discussion as a transcript.
 
@@ -10,16 +10,16 @@ This workflow uses the **Claude Code Teams system** (`TeamCreate`, `SendMessage`
 
 | Output | Location |
 |--------|----------|
-| Final assessment | `05-outputs/vc-pitch-three-amigos-assessment.md` |
-| Discussion transcript | `04-process/three-amigos-reviews/discussion-transcript.md` |
+| Final assessment | `05-outputs/assess-mvp-by-three-amigos/mvp-three-amigos-assessment.md` |
+| Discussion transcript | `04-process/assess-mvp-by-three-amigos/discussion-transcript.md` |
 
 ## Context
 
-The VC pitch (`05-outputs/vc-pitch.md`) distils interview research into a one-page investment narrative for a personal AI assistant product. A pitch this condensed inevitably makes trade-offs: it emphasises some things and glosses over others. This workflow catches those gaps before investors do.
+The MVP brief (`05-outputs/generate-mvp-document/mvp-brief.md`) synthesises interview research and market analysis into a focused product brief. A document this condensed inevitably makes trade-offs: it emphasises some things and glosses over others. This workflow catches those gaps before resources are committed to building.
 
 The review uses the **DVF framework** (Desirability, Feasibility, Viability) — a standard product assessment lens:
 
-- **Desirability** — Do real users actually want this? Does the pitch reflect genuine needs from the research?
+- **Desirability** — Do real users actually want this? Does the brief reflect genuine needs from the research?
 - **Feasibility** — Can it be built? Are the technical claims realistic? What hard problems are glossed over?
 - **Viability** — Does the business case hold up? Is the market positioning defensible? Is there a path to revenue?
 
@@ -57,7 +57,7 @@ Phase 4 — Verify & Shutdown
 
 ### What Gets Recorded in the Discussion Transcript
 
-The discussion transcript (`04-process/three-amigos-reviews/discussion-transcript.md`) captures the full Phase 2 conversation — every message between the three specialists, in chronological order. It reads like a meeting transcript:
+The discussion transcript (`04-process/assess-mvp-by-three-amigos/discussion-transcript.md`) captures the full Phase 2 conversation — every message between the three specialists, in chronological order. It reads like a meeting transcript:
 
 - Who said what, and when (message order preserved)
 - Points of agreement and disagreement
@@ -68,27 +68,27 @@ This transcript is valuable in its own right — it shows the reasoning behind t
 
 ## Strategic Success Criteria
 
-- Identify weaknesses in the pitch before investors do
+- Identify weaknesses in the MVP brief before resources are committed
 - Surface tensions between what users want (Desirability), what can be built (Feasibility), and what makes business sense (Viability)
-- Produce prioritised, actionable recommendations to strengthen the pitch
-- Ensure the pitch is grounded in real research evidence, not marketing assumptions
+- Produce prioritised, actionable recommendations to strengthen the brief
+- Ensure the brief is grounded in real research evidence, not assumptions
 - Preserve the discussion reasoning as a readable transcript for the project team
 
 ## Inputs
 
 | Input | Location | Notes |
 |-------|----------|-------|
-| VC Pitch | `05-outputs/vc-pitch.md` | Must exist. Generate with `analyze-by-vc-pitch` workflow if missing. |
-| Strategic Research Brief | `00-brief/strategic-research-brief.md` | Provides the research context and success criteria the pitch should serve. |
+| MVP Brief | `05-outputs/generate-mvp-document/mvp-brief.md` | Must exist. Generate with `generate-mvp-document` workflow if missing. |
+| Strategic Research Brief | `00-brief/strategic-research-brief.md` | Provides the research context and success criteria the brief should serve. |
 
 ## Team Structure
 
 | Role | Agent | Job |
 |------|-------|-----|
 | **Team Lead** | Orchestrator (you) | Creates team, assigns tasks, records transcript, runs verify, shuts down team |
-| **UX Researcher** | `ux-reviewer` | Reviews pitch through Desirability lens |
-| **Engineer** | `engineer-reviewer` | Reviews pitch through Feasibility lens |
-| **Product Manager** | `pm-reviewer` | Reviews pitch through Viability lens |
+| **UX Researcher** | `ux-reviewer` | Reviews brief through Desirability lens |
+| **Engineer** | `engineer-reviewer` | Reviews brief through Feasibility lens |
+| **Product Manager** | `pm-reviewer` | Reviews brief through Viability lens |
 | **Synthesiser** | `three-amigos-synthesizer` | Combines all reviews + transcript into final document |
 
 ## Acceptance Criteria
@@ -98,7 +98,7 @@ The output is complete when **all** of the following are true:
 1. Three independent specialist reviews exist (one each for Desirability, Feasibility, Viability)
 2. A discussion transcript exists capturing the full Phase 2 exchange between all three specialists
 3. The transcript contains genuine back-and-forth — not just three monologues
-4. Final synthesis document at `05-outputs/vc-pitch-three-amigos-assessment.md` follows the output template
+4. Final synthesis document at `05-outputs/assess-mvp-by-three-amigos/mvp-three-amigos-assessment.md` follows the output template
 5. Final document is maximum 5 pages (~2,500 words)
 6. Written in bullet points and short sentences throughout — no walls of prose
 7. Cross-Cutting Tensions section identifies genuine disagreements between the three lenses
@@ -107,4 +107,4 @@ The output is complete when **all** of the following are true:
 
 ## Workflow
 
-See `02-workflows/assess-vc-pitch-by-three-amigos/` for the detailed orchestration, scripts, and agent definitions.
+See `02-workflows/assess-mvp-by-three-amigos/` for the detailed orchestration, scripts, and agent definitions.
