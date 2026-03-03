@@ -257,4 +257,25 @@ Create a Claude Code team of three specialist reviewers. Each independently asse
 
 ## Learnings
 
-_Update this section as the workflow is used. Record constraints, edge cases, and improved checks._
+### Run 1 — March 2026
+
+**SendMessage broadcast delivery to idle spawned agents does not work.**
+After Phase 1 agents complete and go idle, broadcasting Phase 1 reviews to them produces no responses. Spawned agents via the Agent tool appear to terminate after completing their initial task rather than remaining genuinely idle for follow-up messages.
+
+**Workaround: respawn agents in discussion mode, writing responses to files.**
+For Phase 2, spawn each specialist fresh with all Phase 1 review content embedded directly in the prompt. Have them WRITE their response to a specific file in `phase2-discussion/` rather than using SendMessage. The orchestrator reads all files and assembles the transcript manually.
+
+**Updated Phase 2 pattern:**
+1. Read all 3 Phase 1 review files
+2. Spawn 3 new discussion agents in parallel, each receiving all 3 reviews in their prompt and a specific output file path
+3. Spawn 3 more agents for Round 2, each receiving all Round 1 responses in their prompt
+4. Orchestrator reads all 6 files and writes the transcript manually
+
+**TeamDelete requires manual cleanup.**
+Shutdown requests sent via SendMessage to idle spawned agents are not processed. TeamDelete therefore cannot confirm shutdown. Workaround: `rm -rf ~/.claude/teams/{team-name} ~/.claude/tasks/{team-name}`.
+
+**`3-amigos-synthesizer` subagent_type not available.**
+The agent folder name starts with `3-` (a digit), preventing registration as a named subagent type. Use `general-purpose` with the synthesizer instructions embedded in the prompt.
+
+**Discussion quality was high despite file-based workaround.**
+Two rounds × 3 specialists produced substantive cross-lens engagement. File-writing pattern does not compromise discussion quality.
