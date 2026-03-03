@@ -27,7 +27,7 @@ The deliverable should help a VC audience quickly understand why this opportunit
 
 | Output | Location |
 |--------|----------|
-| VC pitch one-pager | `05-outputs/analyse-by-vc-pitch/vc-pitch-one-pager.md` |
+| VC pitch one-pager | `05-outputs/generate-vc-pitch/vc-pitch-one-pager.md` |
 
 ## Out of Scope
 
@@ -48,4 +48,4 @@ The deliverable should help a VC audience quickly understand why this opportunit
 
 ## Workflow
 
-See `02-workflows/analyse-by-vc-pitch/` for the detailed process.
+See `02-workflows/generate-vc-pitch/` for the detailed process.

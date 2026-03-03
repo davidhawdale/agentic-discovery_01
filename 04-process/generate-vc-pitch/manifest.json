@@ -1,10 +1,10 @@
 {
-  "workflow": "analyse-by-vc-pitch",
+  "workflow": "generate-vc-pitch",
   "created_at": "2026-03-03T13:05:13.983623+00:00",
   "extracts_dir": "04-process/synthesise-archetypes/extracts",
   "brief_file": "00-brief/strategic-research-brief.md",
   "template_file": "10-resources/templates/vc-pitch-output-template.md",
-  "output_file": "05-outputs/analyse-by-vc-pitch/vc-pitch-one-pager.md",
+  "output_file": "05-outputs/generate-vc-pitch/vc-pitch-one-pager.md",
   "files": [
     "04-process/synthesise-archetypes/extracts/1.md",
     "04-process/synthesise-archetypes/extracts/10.md",

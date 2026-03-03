@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify output quality gates for analyse-by-vc-pitch."""
+"""Verify output quality gates for generate-vc-pitch."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_FILE = ROOT / "05-outputs" / "analyse-by-vc-pitch" / "vc-pitch-one-pager.md"
+DEFAULT_FILE = ROOT / "05-outputs" / "generate-vc-pitch" / "vc-pitch-one-pager.md"
 DEFAULT_EXTRACTS = ROOT / "04-process" / "synthesise-archetypes" / "extracts"
 REQUIRED_HEADINGS = [
     "## The Problem",

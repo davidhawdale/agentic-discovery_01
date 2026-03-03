@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare deterministic inputs for analyse-by-vc-pitch.
+"""Prepare deterministic inputs for generate-vc-pitch.
 
 Writes a manifest used by orchestration and vc-pitch-writer.
 """
@@ -15,8 +15,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_EXTRACTS = ROOT / "04-process" / "synthesise-archetypes" / "extracts"
 DEFAULT_BRIEF = ROOT / "00-brief" / "strategic-research-brief.md"
 DEFAULT_TEMPLATE = ROOT / "10-resources" / "templates" / "vc-pitch-output-template.md"
-DEFAULT_MANIFEST = ROOT / "04-process" / "analyse-by-vc-pitch" / "manifest.json"
-DEFAULT_OUTPUT = ROOT / "05-outputs" / "analyse-by-vc-pitch" / "vc-pitch-one-pager.md"
+DEFAULT_MANIFEST = ROOT / "04-process" / "generate-vc-pitch" / "manifest.json"
+DEFAULT_OUTPUT = ROOT / "05-outputs" / "generate-vc-pitch" / "vc-pitch-one-pager.md"
 
 
 def rel(path: Path) -> str:
@@ -64,7 +64,7 @@ def main() -> int:
         return 1
 
     manifest = {
-        "workflow": "analyse-by-vc-pitch",
+        "workflow": "generate-vc-pitch",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "extracts_dir": rel(extracts_dir),
         "brief_file": rel(brief_file),
