@@ -1,1 +1,2 @@
 {"timestamp":"2026-03-03T00:00:00Z","directive":"generate-vc-pitch","status":"WARN","issues":["Phase 3 FAIL (first): footer missing bracket format [N]; resolved by targeted re-run of vc-pitch-writer"]}
+{"timestamp":"2026-03-03T00:00:00Z","directive":"generate-mvp-document","status":"WARN","issues":["Phase 2a: WebSearch blocked in subagent environment — market-reviewer fell back to training knowledge (mid-2025); data flagged for verification in output","Revenue Potential section contains analytical team-pricing extrapolation not directly participant-evidenced"]}
