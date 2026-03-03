@@ -2,16 +2,7 @@
 
 ## Goal
 
-Stress-test the MVP brief by assembling a **team** of three specialist agents — a UX Researcher, an Engineer, and a Product Manager — who independently review the brief, then hold a live discussion round where they challenge and build on each other's thinking. A fourth agent synthesises everything into a final assessment document.
-
-This workflow uses the **Claude Code Teams system** (`TeamCreate`, `SendMessage`) so the specialists genuinely communicate with each other during the discussion round, rather than just reading static files. The team lead orchestrates the phases and records the full discussion as a transcript.
-
-### Outputs
-
-| Output | Location |
-|--------|----------|
-| Final assessment | `05-outputs/assess-mvp-by-three-amigos/mvp-three-amigos-assessment.md` |
-| Discussion transcript | `04-process/assess-mvp-by-three-amigos/discussion-transcript.md` |
+Stress-test the MVP brief by assembling a **team** of three specialist agents — a UX Researcher, an Engineer, and a Product Manager — who independently review the brief, then hold a live discussion round where they challenge and build on each other's thinking, and produce a final prioritised assessment.
 
 ## Context
 
@@ -27,44 +18,7 @@ The review uses the **DVF framework** (Desirability, Feasibility, Viability) —
 
 A single reviewer tends to agree with itself. Three independent specialists — who first review blind, then actively discuss and challenge each other — surface genuine tensions. The disagreements between lenses are often more valuable than the agreements.
 
-### How It Works (Teams Approach)
-
-This workflow creates a **formal Claude Code team** using `TeamCreate`. The orchestrator acts as team lead and coordinates five phases:
-
-```
-Phase 0 — Prepare
-    Python script checks inputs exist, creates working folders.
-
-Phase 1 — Independent Reviews (3 teammates work in parallel)
-    Team lead assigns review tasks to all three specialists.
-    Each writes a structured assessment from their lens.
-    They cannot see each other's work yet.
-
-Phase 2 — Discussion Round (teammates message each other)
-    Team lead shares all Phase 1 reviews with all three specialists.
-    Specialists use SendMessage to discuss — challenging, agreeing,
-    and building on each other's points.
-    Team lead records every message into a discussion transcript.
-
-Phase 3 — Synthesis (1 teammate)
-    Synthesiser agent reads all review files + the discussion transcript
-    and produces the final assessment document.
-
-Phase 4 — Verify & Shutdown
-    Python script checks the output meets acceptance criteria.
-    Team lead shuts down all teammates and cleans up the team.
-```
-
-### What Gets Recorded in the Discussion Transcript
-
-The discussion transcript (`04-process/assess-mvp-by-three-amigos/discussion-transcript.md`) captures the full Phase 2 conversation — every message between the three specialists, in chronological order. It reads like a meeting transcript:
-
-- Who said what, and when (message order preserved)
-- Points of agreement and disagreement
-- Follow-up questions and responses
-- Cross-cutting insights that emerged from the exchange
-
-This transcript is valuable in its own right — it shows the reasoning behind the final recommendations, not just the conclusions.
+The workflow uses the Claude Code Teams system (`TeamCreate`, `SendMessage`) so specialists genuinely communicate during the discussion round rather than just reading static files.
 
 ## Strategic Success Criteria
 
@@ -81,15 +35,30 @@ This transcript is valuable in its own right — it shows the reasoning behind t
 | MVP Brief | `05-outputs/generate-mvp-document/mvp-brief.md` | Must exist. Generate with `generate-mvp-document` workflow if missing. |
 | Strategic Research Brief | `00-brief/strategic-research-brief.md` | Provides the research context and success criteria the brief should serve. |
 
+## Outputs
+
+| Output | Location |
+|--------|----------|
+| Final assessment | `05-outputs/assess-mvp-by-three-amigos/mvp-three-amigos-assessment.md` |
+
+*The discussion transcript (`04-process/assess-mvp-by-three-amigos/discussion-transcript.md`) is a process artifact and is not promoted to `05-outputs/`.*
+
+## Out of Scope
+
+- Does not re-run or update the MVP brief — review only, no edits to the source document
+- Does not validate the underlying research methodology or interview transcripts
+- Does not produce a new MVP brief or product strategy document
+- Does not assess the VC pitch — for that, use `generate-vc-pitch` output as input to a separate review
+
 ## Team Structure
 
 | Role | Agent | Job |
 |------|-------|-----|
 | **Team Lead** | Orchestrator (you) | Creates team, assigns tasks, records transcript, runs verify, shuts down team |
-| **UX Researcher** | `ux-reviewer` | Reviews brief through Desirability lens |
-| **Engineer** | `engineer-reviewer` | Reviews brief through Feasibility lens |
-| **Product Manager** | `pm-reviewer` | Reviews brief through Viability lens |
-| **Synthesiser** | `three-amigos-synthesizer` | Combines all reviews + transcript into final document |
+| **UX Researcher** | `ux-3-amigos-reviewer` | Reviews brief through Desirability lens |
+| **Engineer** | `engineer-3-amigos-reviewer` | Reviews brief through Feasibility lens |
+| **Product Manager** | `pm-3-amigos-reviewer` | Reviews brief through Viability lens |
+| **Synthesiser** | `3-amigos-synthesizer` | Combines all reviews + transcript into final document |
 
 ## Acceptance Criteria
 
