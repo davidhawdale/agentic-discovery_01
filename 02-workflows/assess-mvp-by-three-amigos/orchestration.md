@@ -36,9 +36,9 @@ Create a Claude Code team of three specialist reviewers. Each independently asse
 - Run:
   1. `TeamCreate` with team name `three-amigos`
   2. Spawn all three reviewers IN PARALLEL using the Agent tool with `team_name: three-amigos`:
-     - `ux-3-amigos-reviewer` → `04-process/assess-mvp-by-three-amigos/phase1-reviews/desirability-review.md`
-     - `engineer-3-amigos-reviewer` → `04-process/assess-mvp-by-three-amigos/phase1-reviews/feasibility-review.md`
-     - `pm-3-amigos-reviewer` → `04-process/assess-mvp-by-three-amigos/phase1-reviews/viability-review.md`
+     - `ux-three-amigos-reviewer` → `04-process/assess-mvp-by-three-amigos/phase1-reviews/desirability-review.md`
+     - `engineer-three-amigos-reviewer` → `04-process/assess-mvp-by-three-amigos/phase1-reviews/feasibility-review.md`
+     - `pm-three-amigos-reviewer` → `04-process/assess-mvp-by-three-amigos/phase1-reviews/viability-review.md`
 - Input for all three agents:
   - `manifest_file` — `04-process/assess-mvp-by-three-amigos/manifest.json`
   - `mode` — `independent`
@@ -103,7 +103,7 @@ Create a Claude Code team of three specialist reviewers. Each independently asse
 ### Phase 3: Synthesis
 
 - Goal: Combine all specialist reviews and the discussion transcript into the final assessment document.
-- Run: `3-amigos-synthesizer` (spawned as a standalone agent, outside the team)
+- Run: `three-amigos-synthesizer` (spawned as a standalone agent, outside the team)
 - Input (passed as parameters):
   - `manifest_file` — `04-process/assess-mvp-by-three-amigos/manifest.json`
   - Agent reads `phase1_dir`, `phase2_dir`, `transcript_file`, `template_file`, `output_file` from manifest
@@ -160,10 +160,10 @@ Create a Claude Code team of three specialist reviewers. Each independently asse
 
 - `02-workflows/assess-mvp-by-three-amigos/prepare-three-amigos-inputs.py` — validates prerequisites, creates dirs, writes manifest
 - `02-workflows/assess-mvp-by-three-amigos/verify-three-amigos-output.py` — validates headings, word count, footer, recommendation count
-- `ux-3-amigos-reviewer` — Desirability lens (independent review + SendMessage discussion)
-- `engineer-3-amigos-reviewer` — Feasibility lens (independent review + SendMessage discussion)
-- `pm-3-amigos-reviewer` — Viability lens (independent review + SendMessage discussion)
-- `3-amigos-synthesizer` — assembles final assessment from all reviews + transcript
+- `ux-three-amigos-reviewer` — Desirability lens (independent review + SendMessage discussion)
+- `engineer-three-amigos-reviewer` — Feasibility lens (independent review + SendMessage discussion)
+- `pm-three-amigos-reviewer` — Viability lens (independent review + SendMessage discussion)
+- `three-amigos-synthesizer` — assembles final assessment from all reviews + transcript
 
 ## Manifest Format
 
@@ -274,8 +274,8 @@ For Phase 2, spawn each specialist fresh with all Phase 1 review content embedde
 **TeamDelete requires manual cleanup.**
 Shutdown requests sent via SendMessage to idle spawned agents are not processed. TeamDelete therefore cannot confirm shutdown. Workaround: `rm -rf ~/.claude/teams/{team-name} ~/.claude/tasks/{team-name}`.
 
-**`3-amigos-synthesizer` subagent_type not available.**
-The agent folder name starts with `3-` (a digit), preventing registration as a named subagent type. Use `general-purpose` with the synthesizer instructions embedded in the prompt.
+**`three-amigos-synthesizer` subagent_type now available.**
+The agent folder has been renamed from `3-amigos-synthesizer` to `three-amigos-synthesizer`, enabling registration as a named subagent type. The synthesizer can now be invoked directly via `subagent_type: "three-amigos-synthesizer"`.
 
 **Discussion quality was high despite file-based workaround.**
 Two rounds × 3 specialists produced substantive cross-lens engagement. File-writing pattern does not compromise discussion quality.

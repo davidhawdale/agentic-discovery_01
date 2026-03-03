@@ -55,10 +55,10 @@ The workflow uses the Claude Code Teams system (`TeamCreate`, `SendMessage`) so 
 | Role | Agent | Job |
 |------|-------|-----|
 | **Team Lead** | Orchestrator (you) | Creates team, assigns tasks, records transcript, runs verify, shuts down team |
-| **UX Researcher** | `ux-3-amigos-reviewer` | Reviews brief through Desirability lens |
-| **Engineer** | `engineer-3-amigos-reviewer` | Reviews brief through Feasibility lens |
-| **Product Manager** | `pm-3-amigos-reviewer` | Reviews brief through Viability lens |
-| **Synthesiser** | `3-amigos-synthesizer` | Combines all reviews + transcript into final document |
+| **UX Researcher** | `ux-three-amigos-reviewer` | Reviews brief through Desirability lens |
+| **Engineer** | `engineer-three-amigos-reviewer` | Reviews brief through Feasibility lens |
+| **Product Manager** | `pm-three-amigos-reviewer` | Reviews brief through Viability lens |
+| **Synthesiser** | `three-amigos-synthesizer` | Combines all reviews + transcript into final document |
 
 ## Acceptance Criteria
 
