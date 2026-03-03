@@ -18,19 +18,19 @@ This project uses a 3-layer architecture. LLMs are probabilistic; business logic
 **Why this works:** 90% accuracy per step = 59% success over 5 steps. Push precision work into deterministic code, use LLM agents where judgement adds value.
 
 **Call hierarchy:**
+
 ```
 User → invokes Skill (main context, Sonnet)
   → Skill orchestrates Agent (isolated context, model-tiered)
     → Agent calls Python script (deterministic)
 ```
+
 The hierarchy is one-directional — agents cannot call skills.
 
 ## Workflows
 
 - **Directive workflows** have an entry in `01-directives/` and are triggered by user requests (e.g., "analyze by topic").
 - **Utility workflows** are prerequisites called automatically by other workflows — they don't have directives (e.g., `translate-interview-transcripts/` runs automatically when an analysis needs translated transcripts).
-
-Use `/add-workflow` to scaffold a new workflow.
 
 ## Operating Principle
 

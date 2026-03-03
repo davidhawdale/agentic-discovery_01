@@ -65,6 +65,7 @@ Write to `market_review_file`. Use this structure:
 - Use real numbers. Name sources.
 - No filler or speculation.
 - 300–400 words.
+- If WebSearch is unavailable, use training knowledge and add a note: `*Pricing data as of mid-2025 — verify before publishing.*` Do not halt.
 
 ### Step 4: Report
 
